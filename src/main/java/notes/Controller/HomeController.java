@@ -3,14 +3,13 @@ package notes.Controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class Home {
+public class HomeController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView home () {
+    public String home () {
 
-        return new ModelAndView("home");
+        return "redirect:user/login";
     }
 }
