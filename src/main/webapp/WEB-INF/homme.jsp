@@ -34,11 +34,11 @@
 
         <% if(session.getAttribute("userStatus") == LoginEnum.WrongPassword){%>
 
-            <div class="alert alert-danger" role="alert" id="emailAlert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
-                <h4 class="alert-heading">Nie udało się zalogować</h4>
-                <p class="mb-0">Niestety podane<b> hasło</b> nie pasuje do loginu. Proszę wybrać inne lub użyć opcji przypominania haseł.&nbsp;</p>
-            </div>
+        <div class="alert alert-danger" role="alert" id="emailAlert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
+            <h4 class="alert-heading">Nie udało się zalogować</h4>
+            <p class="mb-0">Niestety podane<b> hasło</b> nie pasuje do loginu. Proszę wybrać inne lub użyć opcji przypominania haseł.&nbsp;</p>
+        </div>
 
         <%} %>
 

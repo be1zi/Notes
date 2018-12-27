@@ -31,7 +31,7 @@ public class UserController {
         HttpSession session = request.getSession(true);
         request.getSession().setAttribute("userStatus", LoginEnum.Logout);
 
-        ModelAndView modelAndView = new ModelAndView("home");
+        ModelAndView modelAndView = new ModelAndView("homme");
 
         User user = new User();
         modelAndView.addObject("user", user);
@@ -47,6 +47,17 @@ public class UserController {
         session.setAttribute("userStatus", serviceResult.getEnumValue());
         session.setAttribute("user", serviceResult.getData());
 
-        return "home";
+        if (serviceResult.getEnumValue() == LoginEnum.Login) {
+            return "dashboard";
+        }
+
+        return "homme";
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(HttpSession session) {
+
+        session.invalidate();
+        return "redirect:/";
     }
 }
