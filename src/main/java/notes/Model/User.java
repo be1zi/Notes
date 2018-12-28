@@ -49,7 +49,16 @@ public class User {
     }
 
     public List<Note> getNotes() {
-        return notes;
+
+        List<Note> list = new LinkedList<>();
+
+        for (Note n : notes) {
+            if (!n.isDeleted()) {
+                list.add(n);
+            }
+        }
+
+        return list;
     }
 
     public void setNotes(List<Note> notes) {

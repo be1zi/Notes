@@ -31,7 +31,12 @@ public class NoteController {
             return reautenticate();
         }
 
-        return new ModelAndView("notes");
+        User user = (User)session.getAttribute("user");
+
+        ModelAndView modelAndView = new ModelAndView("notes");
+        modelAndView.addObject("notes", user.getNotes());
+
+        return modelAndView;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
