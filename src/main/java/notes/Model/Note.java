@@ -28,6 +28,10 @@ public class Note {
     @OneToOne
     private User user;
 
+    @NotNull
+    @Column(name = "Deleted")
+    private boolean deleted;
+
     public long getId() {
         return id;
     }
@@ -68,6 +72,14 @@ public class Note {
         this.user = user;
     }
 
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
     @Override
     public String toString() {
         return "Note{" +
@@ -75,6 +87,7 @@ public class Note {
                 ", title='" + title + '\'' +
                 ", desc='" + desc + '\'' +
                 ", insertDate=" + insertDate +
+                ", isDeleted=" + deleted +
                 '}';
     }
 }

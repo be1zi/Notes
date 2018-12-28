@@ -28,12 +28,12 @@ public class NoteService implements INoteService {
 
         ServiceResult<Note, AddNoteEnum> serviceResult = new ServiceResult();
 
-        if (note.getTitle() == null || note.getDesc() == null) {
+        if (note.getTitle() == null || note.getTitle().isEmpty()) {
             serviceResult.setEnumValue(AddNoteEnum.EmptyTitle);
             return serviceResult;
         }
 
-        Note dbNote = noteRepository.findByTitleAndUserId(note.getTitle(), user.getId());
+        Note dbNote = noteRepository.findByTitleAndUserIdAndDeletedFalse(note.getTitle(), user.getId());
 
         if (dbNote != null) {
             serviceResult.setEnumValue(AddNoteEnum.TitleExist);

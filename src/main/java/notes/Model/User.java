@@ -61,7 +61,9 @@ public class User {
             this.notes = new LinkedList<>();
         }
 
-        this.notes.add(note);
+        if (!this.notes.contains(note)) {
+            this.notes.add(note);
+        }
     }
 
     @Override
