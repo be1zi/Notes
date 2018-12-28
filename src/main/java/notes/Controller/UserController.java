@@ -27,14 +27,12 @@ public class UserController {
     @RequestMapping(value = "/login")
     public ModelAndView login(HttpServletRequest request) {
 
-
         HttpSession session = request.getSession(true);
         request.getSession().setAttribute("userStatus", LoginEnum.Logout);
 
         ModelAndView modelAndView = new ModelAndView("homme");
 
-        User user = new User();
-        modelAndView.addObject("user", user);
+        modelAndView.addObject("user", new User());
 
         return modelAndView;
     }

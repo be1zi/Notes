@@ -14,6 +14,26 @@
 <div class="Add" >
 
 
+    <noteForm:form modelAttribute="note" action="save" method="post">
+
+
+        <div class="addNoteTitle" >
+            <label class="label">Tytuł</label>
+            <noteForm:input path="title" type="text" class="titleInput" placeholder="Title" required=""/>
+            <br/>
+        </div>
+
+        <div class="addNoteTitle" >
+            <label class="label">Opis</label>
+            <noteForm:input path="desc" type="text" class="descInput" placeholder="Description" required=""/>
+            <br/>
+        </div>
+
+        <div class="button">
+            <button type="submit" class="btn btn-block btn-lg text-center btn-warning text-white">Zapisz</button>
+        </div>
+
+    </noteForm:form>
 
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
