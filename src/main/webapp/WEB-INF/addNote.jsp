@@ -15,9 +15,8 @@
 <div class="Add" >
 
 
-    <noteForm:form modelAttribute="note" action="save" method="post">
-
-
+    <noteForm:form modelAttribute="note" action="/note/save" method="post">
+        
         <div class="addNoteTitle" >
             <label class="label">Tytuł</label>
             <noteForm:input path="title" type="text" class="titleInput" placeholder="Title" required="" maxlength="50"/>

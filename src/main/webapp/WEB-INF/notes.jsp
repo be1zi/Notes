@@ -26,9 +26,20 @@
 
         <c:forEach items="${notes}" var="item">
             <div class="row">
-                <a href="#">
-                    <c:out value="${item.getTitle()}"/>
-                </a>
+                <%--<div class="col-md-4">--%>
+                    <a href="#">
+                        <c:out value="${item.getTitle()}"/>
+                    </a>
+                <%--</div>--%>
+
+                <%--<div class="col-md-4">--%>
+                    <a href="/note/edit?id=${item.getId()}">Edytuj</a>
+                <%--</div>--%>
+
+                <%--<div class="col-md-4">--%>
+                    <a href="/note/delete?id=${item.getId()}">Usuń</a>
+                <%--</div>--%>
+
             </div>
         </c:forEach>
 

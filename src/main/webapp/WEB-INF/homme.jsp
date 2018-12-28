@@ -14,7 +14,7 @@
 
 <div class="loginForm" >
 
-    <userForm:form modelAttribute="user" action="check" method="post">
+    <userForm:form modelAttribute="user" action="/user/check" method="post">
 
 
         <% if(session.getAttribute("userStatus") == LoginEnum.LoginNotFound) { %>
