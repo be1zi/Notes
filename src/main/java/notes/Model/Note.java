@@ -1,11 +1,8 @@
 package notes.Model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 public class Note {
@@ -27,6 +24,9 @@ public class Note {
     @NotNull
     @Column(name = "Date")
     private Date insertDate;
+
+    @OneToOne
+    private User user;
 
     public long getId() {
         return id;
@@ -58,6 +58,14 @@ public class Note {
 
     public void setInsertDate(Date insertDate) {
         this.insertDate = insertDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

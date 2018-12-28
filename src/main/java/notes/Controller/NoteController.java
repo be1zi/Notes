@@ -1,6 +1,8 @@
 package notes.Controller;
 
+import notes.Helper.Enum.AddNoteEnum;
 import notes.Helper.Enum.LoginEnum;
+import notes.Helper.Service.ServiceResult;
 import notes.Model.Note;
 import notes.Model.User;
 import notes.Service.INoteService;
@@ -52,11 +54,15 @@ public class NoteController {
             return reautenticate();
         }
 
+        User user = (User)session.getAttribute("user");
 
-        ModelAndView modelAndView = new ModelAndView("homme");
-        modelAndView.addObject("user", new User());
+        ServiceResult<Note, AddNoteEnum> serviceResult = iNoteService.addNote(note, user);
+        session.setAttribute("alert", serviceResult.getEnumValue());
+
+        ModelAndView modelAndView = new ModelAndView("addNote");
+        modelAndView.addObject("note", new Note());
+
         return modelAndView;
-
     }
 
     private boolean validSession(HttpSession session) {

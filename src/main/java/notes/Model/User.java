@@ -1,10 +1,9 @@
 package notes.Model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -21,6 +20,9 @@ public class User {
     @NotNull
     @Column(name = "Password")
     private String password;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Note> notes;
 
     public Long getId() {
         return id;
@@ -44,6 +46,22 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
+    }
+
+    public void addNote(Note note) {
+        if (this.notes == null) {
+            this.notes = new LinkedList<>();
+        }
+
+        this.notes.add(note);
     }
 
     @Override
