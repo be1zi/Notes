@@ -14,14 +14,16 @@
 <div class="dashboard" >
 
     <div class="action">
-        <a class="btn navbar-btn ml-2 text-white btn-warning" href="/note/list" data-toggle=""><i class="fa d-inline fa-lg fa-unlock"></i> Lista notatek</a>
+        <a class="btn navbar-btn ml-2 text-white btn-warning" href="/note/list" data-toggle=""><i class="fa d-inline fa-lg fa-unlock"></i> Lista notatek </a>
         <br/>
-        <a class="btn navbar-btn ml-2 text-white btn-warning" href="/note/add" data-toggle=""><i class="fa d-inline fa-lg fa-unlock"></i>Dodaj nową notatkę</a>
+        <a class="btn navbar-btn ml-2 text-white btn-warning" href="/note/add" data-toggle=""><i class="fa d-inline fa-lg fa-unlock"></i> Dodaj nową notatkę </a>
+        <br/>
+        <a class="btn navbar-btn ml-2 text-white btn-warning" href="/censure/" data-toggle=""><i class="fa d-inline fa-lg fa-unlock"></i> Cenzura </a>
         <br/>
     </div>
 
     <div class="logout">
-        <a class="btn navbar-btn ml-2 text-white btn-warning" href="/user/logout" data-toggle=""><i class="fa d-inline fa-lg fa-unlock"></i>&nbsp; Wyloguj</a>
+        <a class="btn navbar-btn ml-2 text-white btn-warning" href="/user/logout" data-toggle=""><i class="fa d-inline fa-lg fa-unlock"></i> Wyloguj </a>
     </div>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

@@ -9,13 +9,11 @@
 </head>
 <body>
 
-
 <h1>Home</h1>
 
 <div class="loginForm" >
 
     <userForm:form modelAttribute="user" action="/user/check" method="post">
-
 
         <% if(session.getAttribute("userStatus") == LoginEnum.LoginNotFound) { %>
 
