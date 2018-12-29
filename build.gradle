@@ -31,5 +31,6 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile 'mysql:mysql-connector-java'
 	compile group: 'org.webjars', name: 'bootstrap', version: '4.0.0-beta'
+	compile 'com.google.code.gson:gson:2.8.2'
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }

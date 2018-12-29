@@ -7,7 +7,6 @@ import notes.Helper.Service.ServiceResult;
 import notes.Model.Note;
 import notes.Model.User;
 import notes.Service.INoteService;
-import notes.Service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/note")
@@ -87,6 +85,24 @@ public class NoteController {
 
         return modelAndView;
 
+    }
+
+    @RequestMapping(value = "/item", method = RequestMethod.GET)
+    public @ResponseBody Note getItem(@RequestParam(value = "id", required = true) Long id, HttpSession session) {
+
+        if (!validSession(session)) {
+            return null;
+        }
+
+        User user = (User)session.getAttribute("user");
+        for (Note n : user.getNotes()) {
+            if (n.isDeleted() == false && n.getId() == id) {
+                n.setUser(null);
+                return n;
+            }
+        }
+
+        return null;
     }
 
     private boolean validSession(HttpSession session) {
