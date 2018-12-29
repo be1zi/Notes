@@ -63,9 +63,10 @@
             });
 
             request.done(function (data) {
-                alert(data);
 
-                if (data == undefined) {
+                if (data == null ||
+                    data == undefined ||
+                    data.title == undefined) {
                     console.log("Invalid session");
                     window.location = "/user/login";
                 } else {

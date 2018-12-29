@@ -18,7 +18,7 @@ public class Note {
     private String title;
 
     @NotNull
-    @Column(name = "Description")
+    @Column(name = "Description", columnDefinition = "TEXT")
     private String desc;
 
     @NotNull
