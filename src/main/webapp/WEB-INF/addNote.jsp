@@ -1,4 +1,4 @@
-<%@ page import="notes.Helper.Enum.AddNoteEnum" %>
+<%@ page import="notes.Helper.Enum.AddEnum" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="noteForm" uri="http://www.springframework.org/tags/form" %>
 
@@ -36,21 +36,22 @@
     </noteForm:form>
 
     <div class="alert">
-        <% if(session.getAttribute("alert") != null &&
-                !session.getAttribute("alert").toString().isEmpty()) { %>
+        <% if(session.getAttribute("noteAlert") != null &&
+                !session.getAttribute("noteAlert").toString().isEmpty() &&
+                session.getAttribute("noteAlert") != AddEnum.Default) { %>
 
         <div class="alert alert-error alert-danger" role="alert" id="loginAlert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
 
-            <% if (session.getAttribute("alert") == AddNoteEnum.Success) { %>
+            <% if (session.getAttribute("noteAlert") == AddEnum.Success) { %>
                 <h4 class="alert-heading">Notatka została dodana poprawnie</h4>
-            <% } else if (session.getAttribute("alert") == AddNoteEnum.TitleExist) { %>
+            <% } else if (session.getAttribute("noteAlert") == AddEnum.Exist) { %>
                  <h4 class="alert-heading">Błąd</h4>
                  <p class="mb-0">Niestety notatka o podanym <b>tytule</b> została już utworzona dla twojego konta. Proszę wybrać inny i spróbować ponownie. </p>
-            <% } else if (session.getAttribute("alert") == AddNoteEnum.EmptyTitle) { %>
+            <% } else if (session.getAttribute("noteAlert") == AddEnum.EmptyField) { %>
                 <h4 class="alert-heading">Błąd</h4>
                  <p class="mb-0">Tytuł nie może być pusty</p>
-            <% } else if (session.getAttribute("alert") == AddNoteEnum.Failure) { %>
+            <% } else if (session.getAttribute("noteAlert") == AddEnum.Failure) { %>
                 <h4 class="alert-heading">Błąd</h4>
                 <p class="mb-0">Coś poszło nie tak. Proszę spróbowac ponownie później. </p>
             <% } %>

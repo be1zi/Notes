@@ -2,7 +2,7 @@ package notes.Service;
 
 import notes.DAO.NoteRepository;
 import notes.DAO.UserRepository;
-import notes.Helper.Enum.AddNoteEnum;
+import notes.Helper.Enum.AddEnum;
 import notes.Helper.Enum.OperationEnum;
 import notes.Helper.Service.ServiceResult;
 import notes.Model.Note;
@@ -28,34 +28,32 @@ public class NoteService implements INoteService {
 
     @Override
     @Transactional
-    public ServiceResult<Note, AddNoteEnum> addNote(Note note, User user) {
+    public ServiceResult<Note, AddEnum> addNote(Note note, User user) {
 
-        ServiceResult<Note, AddNoteEnum> serviceResult = new ServiceResult();
+        ServiceResult<Note, AddEnum> serviceResult = new ServiceResult();
 
         if (note.getTitle() == null || note.getTitle().isEmpty()) {
-            serviceResult.setEnumValue(AddNoteEnum.EmptyTitle);
+            serviceResult.setEnumValue(AddEnum.EmptyField);
             return serviceResult;
         }
 
         Note dbNote = noteRepository.findByTitleAndUserIdAndDeletedFalse(note.getTitle(), user.getId());
 
         if (dbNote != null) {
-            serviceResult.setEnumValue(AddNoteEnum.TitleExist);
+            serviceResult.setEnumValue(AddEnum.Exist);
             return serviceResult;
         }
 
         try {
             note.setInsertDate(new Date());
-            user.addNote(note);
             note.setUser(user);
 
             noteRepository.save(note);
-            userRepository.save(user);
 
             serviceResult.setData(note);
-            serviceResult.setEnumValue(AddNoteEnum.Success);
+            serviceResult.setEnumValue(AddEnum.Success);
         } catch (Exception e) {
-            serviceResult.setEnumValue(AddNoteEnum.Failure);
+            serviceResult.setEnumValue(AddEnum.Failure);
         }
 
         return serviceResult;
@@ -67,7 +65,7 @@ public class NoteService implements INoteService {
 
         ServiceResult<User, OperationEnum> serviceResult = new ServiceResult<>();
 
-        if (user.getNotes() == null || !(user.getNotes().size() > 0)) {
+        if (!(noteId > 0) || user == null || !(user.getId() > 0) ) {
             serviceResult.setEnumValue(OperationEnum.Failure);
             return serviceResult;
         }
@@ -97,6 +95,28 @@ public class NoteService implements INoteService {
 
         user = userRepository.findByLogin(user.getLogin());
         serviceResult.setData(user);
+
+        return serviceResult;
+    }
+
+    @Override
+    @Transactional
+    public ServiceResult<List<Note>,OperationEnum> getNotesForUser(User user) {
+
+        ServiceResult<List<Note>, OperationEnum> serviceResult = new ServiceResult<>();
+
+        if (user == null || !(user.getId() > 0)) {
+            serviceResult.setEnumValue(OperationEnum.Failure);
+            return serviceResult;
+        }
+
+        try {
+            List<Note> result = noteRepository.findByUserIdAndDeletedFalse(user.getId());
+            serviceResult.setEnumValue(OperationEnum.Success);
+            serviceResult.setData(result);
+        } catch (Exception e) {
+            serviceResult.setEnumValue(OperationEnum.Failure);
+        }
 
         return serviceResult;
     }
