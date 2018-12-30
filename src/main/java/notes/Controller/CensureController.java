@@ -2,6 +2,7 @@ package notes.Controller;
 
 import notes.Helper.Enum.AddEnum;
 import notes.Helper.Enum.LoginEnum;
+import notes.Helper.Enum.OperationEnum;
 import notes.Helper.Service.ServiceResult;
 import notes.Model.Censure;
 import notes.Model.User;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/censure")
@@ -31,8 +33,13 @@ public class CensureController {
             return reautenticate();
         }
 
+        User user = (User)session.getAttribute("user");
+
+        ServiceResult<List<Censure>, OperationEnum> serviceResult = iCensureService.getCensuresForUser(user);
+
         ModelAndView modelAndView = new ModelAndView("censure");
         modelAndView.addObject("censure", new Censure());
+        modelAndView.addObject("censures", serviceResult.getData());
 
         return modelAndView;
     }
@@ -47,10 +54,13 @@ public class CensureController {
         User user = (User)session.getAttribute("user");
 
         ServiceResult<Censure, AddEnum> serviceResult = iCensureService.addCensure(censure, user);
+        ServiceResult<List<Censure>, OperationEnum> listServiceResult = iCensureService.getCensuresForUser(user);
+
         session.setAttribute("alert", serviceResult.getEnumValue());
 
         ModelAndView modelAndView = new ModelAndView("censure");
         modelAndView.addObject("censure", censure);
+        modelAndView.addObject("censures", listServiceResult.getData());
 
         return modelAndView;
 
