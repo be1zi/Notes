@@ -62,36 +62,40 @@
             </div>
 
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <h1>Podgląd</h1>
             <div class="noteDetails">
 
                     <div class="noteTitle" >
                         <label class="label">Tytuł</label>
-                        <input path="title" type="text" class="titleInput" placeholder="" required="" maxlength="50"/>
+                        <input path="title" type="text" class="titleInput" placeholder="" required="" maxlength="50" disabled=false/>
                         <br/>
                     </div>
 
                     <div class="noteDate" >
                         <label class="label">Data</label>
-                        <input path="title" type="date" class="titleInput" placeholder="" required="" maxlength="50"/>
+                        <input path="title" type="date" class="titleInput" placeholder="" required="" maxlength="50" disabled=false/>
                         <br/>
                     </div>
 
                     <div class="noteDesc" >
                         <label class="label">Opis</label>
-                        <textarea path="desc" type="text" class="descInput" placeholder="" required="" rows="10"></textarea>
+                        <textarea path="desc" type="text" class="descInput" placeholder="" required="" rows="10" disabled = false></textarea>
                         <br/>
                     </div>
 
+                <div class="col-md-6">
                     <div class="button">
-                        <button type="submit" class="btn btn-block btn-lg text-center btn-warning text-white">Zapisz</button>
+                        <button type="submit" class="btn btn-block btn-lg text-center btn-warning text-white" disabled = false>Zapisz</button>
                     </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" ></script>
+
     <script>
 
         function showItem(id) {
@@ -125,9 +129,9 @@
             });
         };
 
+
     </script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 </body>
 </html>

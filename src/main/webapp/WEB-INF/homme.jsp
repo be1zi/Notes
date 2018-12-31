@@ -5,57 +5,71 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          type="text/css">
+    <link rel="stylesheet" href="../resource/home.css">
+    <link rel="stylesheet" href="../resource/main.css">
+
     <title>Notes</title>
 </head>
 <body>
 
-<h1>Home</h1>
+<div class="container-fluid p-3">
 
-<div class="loginForm" >
+    <div class="py-5 bg-primary">
+        <div class="container">
+            <div class="row bg-primary">
+                <div class="col-md-3"> </div>
+                <div class="col-md-6">
+                    <div class="card text-white p-5 bg-primary border border-success">
+                        <div class="card-body">
+                            <h1 class="mb-4 text-center text-secondary" style="padding-bottom: 20px">Home</h1>
 
-    <userForm:form modelAttribute="user" action="/user/check" method="post">
+                            <userForm:form modelAttribute="user" action="/user/check" method="post">
+                                <% if(session.getAttribute("userStatus") == LoginEnum.LoginNotFound) { %>
 
-        <% if(session.getAttribute("userStatus") == LoginEnum.LoginNotFound) { %>
+                                    <div class="alert alert-error alert-danger" role="alert" id="loginAlert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
+                                        <h4 class="alert-heading">Nie udało się zalogować</h4>
+                                        <p class="mb-0">Niestety konto o podanym <b>loginie</b> nie istnieje. Proszę wybrać inny i spróbować ponownie. </p>
+                                    </div>
+                                    <% } %>
 
-        <div class="alert alert-error alert-danger" role="alert" id="loginAlert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
-            <h4 class="alert-heading">Nie udało się zalogować</h4>
-            <p class="mb-0">Niestety konto o podanym <b>loginie</b> nie istnieje. Proszę wybrać inny i spróbować ponownie. </p>
+                                <div class="form-group">
+                                    <label class="text-secondary">Login</label>
+                                    <userForm:input path="login" type="text" class="form-control" placeholder="Login" required=""/>
+                                </div>
+
+                                <% if(session.getAttribute("userStatus") == LoginEnum.WrongPassword){%>
+
+                                    <div class="alert alert-error alert-danger" role="alert" id="emailAlert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
+                                        <h4 class="alert-heading">Nie udało się zalogować</h4>
+                                        <p class="mb-0">Niestety podane<b> hasło</b> nie pasuje do loginu. Proszę wybrać inne lub użyć opcji przypominania haseł.&nbsp;</p>
+                                    </div>
+
+                                <%} %>
+                                <div class="form-group">
+                                    <label class="text-secondary">Hasło</label>
+                                    <userForm:input path="password" type="password" class="form-control" placeholder="Hasło" required=""/>
+                                </div>
+
+                                <div class="loginButton text-center" style="margin-top: 40px;">
+                                    <button type="submit" class="btn btn-block btn-lg text-center btn-warning text-white">Zaloguj</button>
+                                </div>
+                            </userForm:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <% } %>
-
-        <div class="login">
-            <label class="loginLabel">Login</label>
-            <userForm:input path="login" type="text" class="loginInput" placeholder="Login" required=""/>
-        </div>
-
-        <% if(session.getAttribute("userStatus") == LoginEnum.WrongPassword){%>
-
-        <div class="alert alert-danger" role="alert" id="emailAlert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
-            <h4 class="alert-heading">Nie udało się zalogować</h4>
-            <p class="mb-0">Niestety podane<b> hasło</b> nie pasuje do loginu. Proszę wybrać inne lub użyć opcji przypominania haseł.&nbsp;</p>
-        </div>
-
-        <%} %>
-
-        <div class="password">
-            <label class="passwordLabel">Hasło</label>
-            <userForm:input path="password" type="password" class="passwordInput" placeholder="Password" required=""/>
-        </div>
-
-        <div class="button">
-            <button type="submit" class="btn btn-block btn-lg text-center btn-warning text-white">Zaloguj</button>
-        </div>
-
-    </userForm:form>
-
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-
+    </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" ></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 </body>
 </html>
