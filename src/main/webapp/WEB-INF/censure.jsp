@@ -20,7 +20,8 @@
 
             <div class="addCensureText" >
                 <label class="label">Tekst</label>
-                <censureForm:input path="text" type="text" class="textInput" placeholder="Tekst" required="" maxlength="50"/>
+                <censureForm:input id="censureText" path="text" type="text" class="textInput" placeholder="Tekst" required="" maxlength="50"/>
+                <label class="alert" id="alert" hidden="true"> Pole nie może zawierać cyfr </label>
                 <br/>
             </div>
 
@@ -31,7 +32,7 @@
             </div>
 
             <div class="button">
-                <button type="submit" class="btn btn-block btn-lg text-center btn-warning text-white">Zapisz</button>
+                <button type="submit" id="submitButton" class="btn btn-block btn-lg text-center btn-warning text-white">Zapisz</button>
             </div>
 
         </censureForm:form>
@@ -91,10 +92,33 @@
             </c:forEach>
     </div>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" ></script>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $('#censureText').on('keyup', function () {
+                    if ($('#censureText').val() != null && !($('#censureText').val() == '')) {
+                        if ($('#censureText').val().match(".*\\d+.*")) {
+                            $('#censureText').css('border-color', 'red');
+                            $('#submitButton')[0].disabled = true;
+                            $('#alert').show();
+                        } else {
+                            $('#censureText').css('border-color', 'white');
+                            $('#submitButton')[0].disabled = false;
+                            $('#alert').hide();
+
+                        }
+                    } else {
+                        $('#censureText').css('border-color', 'white');
+                        $('#submitButton')[0].disabled = false;
+                        $('#alert').hide();
+                    }
+                });
+            });
+
+        </script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
 </div>
 
