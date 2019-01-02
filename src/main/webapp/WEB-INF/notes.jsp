@@ -39,13 +39,13 @@
                             <div class="col-md-8">
                                 <%--<a href="#">--%>
                                 <%--</a>--%>
-                                <button type="button" onclick="showItem(${item.getId()})">
+                                <button id="titleButton" class="titleButtonClass" type="button" onclick="showItem(${item.getId()})">
                                     <c:out value="${item.getTitle()}"/>
                                 </button>
                             </div>
 
                             <div class="col-md-2">
-                                <a href="/note/edit?id=${item.getId()}">Edytuj</a>
+                                <button type="button" onclick="editAction(${item.getId()})">Edytuj</button>
                             </div>
 
                             <div class="col-md-2">
@@ -68,25 +68,25 @@
 
                     <div class="noteTitle" >
                         <label class="label">Tytuł</label>
-                        <input path="title" type="text" class="titleInput" placeholder="" required="" maxlength="50" disabled=false/>
+                        <input id="titleDetails" path="title" type="text" class="titleInput" placeholder="" required="" maxlength="50" disabled=true/>
                         <br/>
                     </div>
 
                     <div class="noteDate" >
                         <label class="label">Data</label>
-                        <input path="title" type="date" class="titleInput" placeholder="" required="" maxlength="50" disabled=false/>
+                        <input id="dateDetails" path="title" type="date" class="titleInput" placeholder="" required="" maxlength="50" disabled=true/>
                         <br/>
                     </div>
 
                     <div class="noteDesc" >
                         <label class="label">Opis</label>
-                        <textarea path="desc" type="text" class="descInput" placeholder="" required="" rows="10" disabled = false></textarea>
+                        <textarea id="descDetails" path="desc" type="text" class="descInput" placeholder="" required="" rows="10" disabled = true></textarea>
                         <br/>
                     </div>
 
                 <div class="col-md-6">
                     <div class="button">
-                        <button type="submit" class="btn btn-block btn-lg text-center btn-warning text-white" disabled = false>Zapisz</button>
+                        <button id="saveButton" type="submit" class="btn btn-block btn-lg text-center btn-warning text-white" disabled = true>Zapisz</button>
                     </div>
                 </div>
             </div>
@@ -99,6 +99,7 @@
     <script>
 
         function showItem(id) {
+
             var request = $.ajax({
                 url: '/note/item',
                 type: 'GET',
@@ -114,12 +115,10 @@
                     console.log("Invalid session");
                     window.location = "/user/login";
                 } else {
-                    document.getElementById("noteContent").innerHTML =
-                        "<div>" +
-                        "<label>" + data.title +"</label></br>"+
-                        "<label>" + data.insertDate +"</label></br>"+
-                        "<label>" + data.desc +"</label></br>"+
-                        "</div>"
+
+                    document.getElementById("dateDetails").valueAsDate = new Date();
+                    $('#titleDetails').val(data.title);
+                    $('#descDetails').val(data.desc);
                 }
             });
 
@@ -129,6 +128,24 @@
             });
         };
 
+        function editAction(id) {
+
+            showItem(id);
+            console.log("EditButton");
+
+            $('#titleDetails')[0].disabled = false;
+            $('#dateDetails')[0].disabled = false;
+            $('#descDetails')[0].disabled = false;
+            $('#saveButton')[0].disabled = false;
+        };
+
+//        $('#titleButton').on('click', function () {
+//            console.log("TitleButton");
+//            $('#titleDetails')[0].disabled = true;
+//            $('#dateDetails')[0].disabled = true;
+//            $('#descDetails')[0].disabled = true;
+//            $('#saveButton')[0].disabled = true;
+//        });
 
     </script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

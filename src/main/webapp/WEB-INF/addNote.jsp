@@ -19,8 +19,6 @@
 <div class="container-fluid p-3">
 
 
-
-
 <h1>Dodaj nową notatkę</h1>
 
 <div class="Add" >

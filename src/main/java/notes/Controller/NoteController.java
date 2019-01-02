@@ -1,11 +1,14 @@
 package notes.Controller;
 
+import notes.Helper.Censure.CensureMaker;
 import notes.Helper.Enum.AddEnum;
 import notes.Helper.Enum.LoginEnum;
 import notes.Helper.Enum.OperationEnum;
 import notes.Helper.Service.ServiceResult;
+import notes.Model.Censure;
 import notes.Model.Note;
 import notes.Model.User;
+import notes.Service.ICensureService;
 import notes.Service.INoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,6 +26,10 @@ public class NoteController {
     @Autowired
     @Qualifier(value = "noteService")
     INoteService iNoteService;
+
+    @Autowired
+    @Qualifier(value = "censureService")
+    ICensureService iCensureService;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ModelAndView notesList(HttpSession session) {
@@ -103,10 +110,12 @@ public class NoteController {
 
         User user = (User)session.getAttribute("user");
         ServiceResult<List<Note>, OperationEnum> listSR = iNoteService.getNotesForUser(user);
+        ServiceResult<List<Censure>, OperationEnum> listCensures = iCensureService.getCensuresForUser(user);
 
         for (Note n : listSR.getData()) {
             if (n.isDeleted() == false && n.getId() == id) {
                 n.setUser(null);
+                n.setDesc(CensureMaker.createCensuredText(n.getDesc(), listCensures.getData()));
                 return n;
             }
         }
