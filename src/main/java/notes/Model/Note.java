@@ -2,6 +2,7 @@ package notes.Model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -24,6 +25,9 @@ public class Note {
     @NotNull
     @Column(name = "Date")
     private Date insertDate;
+
+    @Column(name = "DateString")
+    private String insertDateString;
 
     @OneToOne
     private User user;
@@ -61,7 +65,9 @@ public class Note {
     }
 
     public void setInsertDate(Date insertDate) {
+
         this.insertDate = insertDate;
+        setInsertDateString(stringFromDate(this.insertDate));
     }
 
     public User getUser() {
@@ -78,6 +84,23 @@ public class Note {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public String getInsertDateString() {
+        return insertDateString;
+    }
+
+    public void setInsertDateString(String insertDateString) {
+        this.insertDateString = insertDateString;
+    }
+
+    private String stringFromDate(Date date) {
+
+        String pattern = "yyyy-MM-dd";
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+        return simpleDateFormat.format(date);
     }
 
     @Override

@@ -116,8 +116,9 @@
                     window.location = "/user/login";
                 } else {
 
-                    document.getElementById("dateDetails").valueAsDate = new Date();
+//                    document.getElementById("dateDetails").valueAsDate = new Date();
                     $('#titleDetails').val(data.title);
+                    $('#dateDetails').val(data.insertDateString);
                     $('#descDetails').val(data.desc);
                 }
             });
