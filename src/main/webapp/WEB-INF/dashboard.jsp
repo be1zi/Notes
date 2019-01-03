@@ -15,7 +15,7 @@
 </head>
 <body>
 
-<div class="container-fluid p-3">
+<div class="container-fluid p-3" style="margin-left: 20px">
     <div class="row p-2">
         <h1 class="mb-4 text-center text-secondary" style="padding-bottom: 20px">Dashboard</h1>
     </div>

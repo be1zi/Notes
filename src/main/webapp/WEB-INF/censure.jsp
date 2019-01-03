@@ -17,29 +17,46 @@
 </head>
 <body>
 
-<h1>Cenzura</h1>
+<div class="container-fluid p-3" style="margin-left: 20px">
+    <div class="row p-2">
+        <div class="col-md-4">
+            <h1 class="mb-6 text-center text-secondary" style="padding-bottom: 20px">Cenzura</h1>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+            <h1 class="mb-6 text-center text-secondary" style="padding-bottom: 20px">Ocenzurowane zwroty</h1>
+        </div>
+    </div>
 
-<div class="dashboard" >
+    <div class="row p-2">
 
-    <div class="addSection">
+        <div class="col-md-4">
 
         <censureForm:form modelAttribute="censure" action="/censure/save" method="post">
 
-            <div class="addCensureText" >
-                <label class="label">Tekst</label>
-                <censureForm:input id="censureText" path="text" type="text" class="textInput" placeholder="Tekst" required="" maxlength="50"/>
+            <div class="form-group" >
+                <label class="text-secondary">Tekst</label>
+                <censureForm:input id="censureText" path="text" type="text" class="form-control" placeholder="Tekst" required="" maxlength="50"/>
                 <label class="alert" id="alert" hidden="true"> Pole nie może zawierać cyfr </label>
                 <br/>
             </div>
 
-            <div class="addNoteTitle" >
-                <label class="label">Opis</label>
-                <censureForm:input path="pattern" type="text" class="patternInput" placeholder="Wzór" required=""/>
+            <div class="form-group" >
+                <label class="text-secondary">Opis</label>
+                <censureForm:input path="pattern" type="text" class="form-control" placeholder="Wzór" required=""/>
                 <br/>
             </div>
 
-            <div class="button">
+            <div class="loginButton text-center" style="margin-top: 20px;">
                 <button type="submit" id="submitButton" class="btn btn-block btn-lg text-center btn-warning text-white">Zapisz</button>
+            </div>
+
+            <div class="row p-2" style="margin-top: 40px;">
+                <a class="btn navbar-btn ml-2 text-white btn-warning" href="/censure/back" data-toggle=""> Powrót </a>
+            </div>
+
+            <div class="row p-2">
+                <a class="btn navbar-btn ml-2 text-white btn-danger" href="/user/logout" data-toggle=""> Wyloguj </a>
             </div>
 
         </censureForm:form>
@@ -48,7 +65,7 @@
             <% if(session.getAttribute("alert") != null &&
                     !session.getAttribute("alert").toString().isEmpty()) { %>
 
-            <div class="alert alert-error alert-danger" role="alert" id="loginAlert">
+            <div class="alert alert-error alert-success" role="alert" id="loginAlert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
 
                 <% if (session.getAttribute("alert") == AddEnum.Success) { %>
@@ -68,36 +85,41 @@
             <% } %>
 
         </div>
-    </div>
+        </div>
 
-    <div class="data">
+        <div class="col-md-2"></div>
 
-        <c:choose>
-            <c:when test="${empty censures}">
-                <div class="container">
-                    <H3>Nie masz żadnych ocenzurowanych zwrotów</H3>
-                </div>
-            </c:when>
-        </c:choose>
-
-        <div class="notes">
+        <div class="col-md-4">
+            <c:choose>
+                <c:when test="${empty censures}">
+                    <div class="row p-2">
+                        <h3 class="mb-4 text-center" style="padding-bottom: 20px">Nie masz żadnych ocenzurowanych zwrotów</h3>
+                    </div>
+                </c:when>
+            </c:choose>
 
             <c:forEach items="${censures}" var="item">
-                <div class="row">
-                        <%--<div class="col-md-4">--%>
-                        <%--<a href="#">--%>
-                        <%--</a>--%>
-                    <label>
-                        <c:out value="${item.getText()}"/>
-                    </label>
+                <div class="row border border-success" style="margin-bottom: 5px">
 
-                     <label>
-                         <c:out value="${item.getPattern()}"/>
-                      </label>
-
+                     <div class="col-md-6">
+                        <label class="text-secondary">
+                            <c:out value="${item.getText()}"/>
+                        </label>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="text-secondary">
+                            <c:out value="${item.getPattern()}"/>
+                        </label>
+                    </div>
                 </div>
             </c:forEach>
+
+        </div>
+        <div class="col-md-2"></div>
+
     </div>
+</div>
+
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" ></script>
         <script type="text/javascript">
@@ -126,8 +148,6 @@
         </script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-</div>
 
 </body>
 </html>

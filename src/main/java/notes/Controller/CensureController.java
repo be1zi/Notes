@@ -1,5 +1,6 @@
 package notes.Controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import notes.Helper.Enum.AddEnum;
 import notes.Helper.Enum.LoginEnum;
 import notes.Helper.Enum.OperationEnum;
@@ -64,6 +65,16 @@ public class CensureController {
 
         return modelAndView;
 
+    }
+
+    @RequestMapping(value = "/back", method = RequestMethod.GET)
+    public ModelAndView back(HttpSession session) {
+
+        if (!validSession(session)) {
+            return reautenticate();
+        }
+
+        return new ModelAndView("dashboard");
     }
 
     private boolean validSession(HttpSession session) {
