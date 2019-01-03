@@ -16,58 +16,71 @@
 </head>
 <body>
 
-<div class="container-fluid p-3">
+<div class="container-fluid p-3" style="margin-left: 20px">
+    <div class="row p-2">
+        <h1 class="mb-4 text-center text-secondary" style="padding-bottom: 20px">Dodaj nową notatkę</h1>
+    </div>
 
+    <div class="row p-2">
+        <div class="col-md-4">
 
-<h1>Dodaj nową notatkę</h1>
+        <noteForm:form modelAttribute="note" action="/note/save" method="post">
 
-<div class="Add" >
+            <div class="form-group" >
+                <label class="text-secondary">Tytuł</label>
+                <noteForm:input path="title" type="text" class="form-control" placeholder="Title" required="" maxlength="50"/>
+                <br/>
+            </div>
 
+            <div class="form-group" >
+                <label class="text-secondary">Opis</label>
+                <noteForm:textarea path="desc" type="text" class="form-control" placeholder="Description" required="" rows="10"/>
+                <br/>
+            </div>
 
-    <noteForm:form modelAttribute="note" action="/note/save" method="post">
-        
-        <div class="addNoteTitle" >
-            <label class="label">Tytuł</label>
-            <noteForm:input path="title" type="text" class="titleInput" placeholder="Title" required="" maxlength="50"/>
-            <br/>
-        </div>
+            <div class="button">
+                <button type="submit" class="btn btn-block btn-lg text-center btn-warning text-white">Zapisz</button>
+            </div>
 
-        <div class="addNoteTitle" >
-            <label class="label">Opis</label>
-            <noteForm:textarea path="desc" type="text" class="descInput" placeholder="Description" required="" rows="10"/>
-            <br/>
-        </div>
+        </noteForm:form>
 
-        <div class="button">
-            <button type="submit" class="btn btn-block btn-lg text-center btn-warning text-white">Zapisz</button>
-        </div>
+        <div class="alert">
+            <% if(session.getAttribute("noteAlert") != null &&
+                    !session.getAttribute("noteAlert").toString().isEmpty() &&
+                    session.getAttribute("noteAlert") != AddEnum.Default) { %>
 
-    </noteForm:form>
+                <% if (session.getAttribute("noteAlert") == AddEnum.Success) { %>
+                    <div class="alert alert-error alert-success" role="alert" id="loginAlert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
+                         <h4 class="alert-heading">Notatka została dodana poprawnie</h4>
+                <% } else if (session.getAttribute("noteAlert") == AddEnum.Exist) { %>
+                    <div class="alert alert-error alert-danger" role="alert" id="loginAlert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
+                         <h4 class="alert-heading">Błąd</h4>
+                         <p class="mb-0">Niestety notatka o podanym <b>tytule</b> została już utworzona dla twojego konta. Proszę wybrać inny i spróbować ponownie. </p>
+                <% } else if (session.getAttribute("noteAlert") == AddEnum.EmptyField) { %>
+                    <div class="alert alert-error alert-danger" role="alert" id="loginAlert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
+                        <h4 class="alert-heading">Błąd</h4>
+                         <p class="mb-0">Tytuł nie może być pusty</p>
+                <% } else if (session.getAttribute("noteAlert") == AddEnum.Failure) { %>
+                        <div class="alert alert-error alert-danger" role="alert" id="loginAlert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
+                            <h4 class="alert-heading">Błąd</h4>
+                            <p class="mb-0">Coś poszło nie tak. Proszę spróbowac ponownie później. </p>
+                <% } %>
+            </div>
 
-    <div class="alert">
-        <% if(session.getAttribute("noteAlert") != null &&
-                !session.getAttribute("noteAlert").toString().isEmpty() &&
-                session.getAttribute("noteAlert") != AddEnum.Default) { %>
-
-        <div class="alert alert-error alert-danger" role="alert" id="loginAlert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
-
-            <% if (session.getAttribute("noteAlert") == AddEnum.Success) { %>
-                <h4 class="alert-heading">Notatka została dodana poprawnie</h4>
-            <% } else if (session.getAttribute("noteAlert") == AddEnum.Exist) { %>
-                 <h4 class="alert-heading">Błąd</h4>
-                 <p class="mb-0">Niestety notatka o podanym <b>tytule</b> została już utworzona dla twojego konta. Proszę wybrać inny i spróbować ponownie. </p>
-            <% } else if (session.getAttribute("noteAlert") == AddEnum.EmptyField) { %>
-                <h4 class="alert-heading">Błąd</h4>
-                 <p class="mb-0">Tytuł nie może być pusty</p>
-            <% } else if (session.getAttribute("noteAlert") == AddEnum.Failure) { %>
-                <h4 class="alert-heading">Błąd</h4>
-                <p class="mb-0">Coś poszło nie tak. Proszę spróbowac ponownie później. </p>
             <% } %>
         </div>
+                        <div class="row p-2" style="margin-top: 40px;">
+                            <a class="btn navbar-btn ml-2 text-white btn-warning" href="/note/back" data-toggle=""> Powrót </a>
+                        </div>
 
-        <% } %>
-    </div>
+                        <div class="row p-2">
+                            <a class="btn navbar-btn ml-2 text-white btn-danger" href="/user/logout" data-toggle=""> Wyloguj </a>
+                        </div>
+        </div>
 </div>
 </div>
 

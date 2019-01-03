@@ -51,6 +51,36 @@
                 <button type="submit" id="submitButton" class="btn btn-block btn-lg text-center btn-warning text-white">Zapisz</button>
             </div>
 
+            <div class="alert">
+                <% if(session.getAttribute("alert") != null &&
+                        !session.getAttribute("alert").toString().isEmpty()) { %>
+
+                <% if (session.getAttribute("alert") == AddEnum.Success) { %>
+                <div class="alert alert-error alert-success" role="alert" id="loginAlert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
+                    <h4 class="alert-heading">Cenzura została dodana poprawnie</h4>
+                    <% } else if (session.getAttribute("alert") == AddEnum.Exist) { %>
+                    <div class="alert alert-error alert-danger" role="alert" id="loginAlert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
+                        <h4 class="alert-heading">Błąd</h4>
+                        <p class="mb-0">Niestety cenzura dla podanego <b>tekstu</b> już iistnieje. Proszę wybrać inny i spróbować ponownie. </p>
+                        <% } else if (session.getAttribute("alert") == AddEnum.EmptyField) { %>
+                        <div class="alert alert-error alert-danger" role="alert" id="loginAlert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
+                            <h4 class="alert-heading">Błąd</h4>
+                            <p class="mb-0">Pola niie mogą być puste!</p>
+                            <% } else if (session.getAttribute("alert") == AddEnum.Failure) { %>
+                            <div class="alert alert-error alert-danger" role="alert" id="loginAlert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
+                                <h4 class="alert-heading">Błąd</h4>
+                                <p class="mb-0">Coś poszło nie tak. Proszę spróbowac ponownie później. </p>
+                                <% } %>
+                            </div>
+
+                            <% } %>
+
+                        </div>
+
             <div class="row p-2" style="margin-top: 40px;">
                 <a class="btn navbar-btn ml-2 text-white btn-warning" href="/censure/back" data-toggle=""> Powrót </a>
             </div>
@@ -61,30 +91,6 @@
 
         </censureForm:form>
 
-        <div class="alert">
-            <% if(session.getAttribute("alert") != null &&
-                    !session.getAttribute("alert").toString().isEmpty()) { %>
-
-            <div class="alert alert-error alert-success" role="alert" id="loginAlert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
-
-                <% if (session.getAttribute("alert") == AddEnum.Success) { %>
-                <h4 class="alert-heading">Cenzura została dodana poprawnie</h4>
-                <% } else if (session.getAttribute("alert") == AddEnum.Exist) { %>
-                <h4 class="alert-heading">Błąd</h4>
-                <p class="mb-0">Niestety cenzura dla podanego <b>tekstu</b> już iistnieje. Proszę wybrać inny i spróbować ponownie. </p>
-                <% } else if (session.getAttribute("alert") == AddEnum.EmptyField) { %>
-                <h4 class="alert-heading">Błąd</h4>
-                <p class="mb-0">Pola niie mogą być puste!</p>
-                <% } else if (session.getAttribute("alert") == AddEnum.Failure) { %>
-                <h4 class="alert-heading">Błąd</h4>
-                <p class="mb-0">Coś poszło nie tak. Proszę spróbowac ponownie później. </p>
-                <% } %>
-            </div>
-
-            <% } %>
-
-        </div>
         </div>
 
         <div class="col-md-2"></div>
@@ -119,7 +125,6 @@
 
     </div>
 </div>
-
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" ></script>
         <script type="text/javascript">

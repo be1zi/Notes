@@ -123,6 +123,16 @@ public class NoteController {
         return null;
     }
 
+    @RequestMapping(value = "/back", method = RequestMethod.GET)
+    public ModelAndView back(HttpSession session) {
+
+        if (!validSession(session)) {
+            return reautenticate();
+        }
+
+        return new ModelAndView("dashboard");
+    }
+
     private boolean validSession(HttpSession session) {
 
         if (session == null ||
