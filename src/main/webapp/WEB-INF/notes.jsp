@@ -90,11 +90,11 @@
                     </div>
                 </div>
 
-                <div class="addAlertSuccess" hidden = true>
-                    <H3>Dodano</H3>
+                <div class="addAlertSuccess" id="addedAlert">
+                    <H3 id="addedAlertMessage">Dodano</H3>
                 </div>
 
-                <div class="addAlertFailure" hidden = true>
+                <div class="addAlertFailure" id="errorAlert">
                     <H3>Nie dodano</H3>
                 </div>
 
@@ -163,11 +163,17 @@
                     console.log("Invalid session");
                     window.location = "/user/login";
                 } else if (data.enumValue.localeCompare("Success") == 0){
-                    $('#addAlertSuccess').show();
-                    $('#addAlertFailure').hide();
-                } else if (data.enumValu.localeCompare("Failure") == 0){
-                    $('#addAlertSuccess').hide();
-                    $('#addAlertFailure').show();
+                    $('#addedAlert').show();
+                    $('#errorAlert').hide();
+                } else if (data.enumValue.localeCompare("Failure") == 0){
+                    $('#addedAlert').hide();
+                    $('#errorAlert').show();
+                } else if (data.enumValue.localeCompare("WrongData") == 0) {
+                    $('#addedAlert').hide();
+                    $('#errorAlert').show();
+                } else if (data.enumValue.localeCompare("Exist") == 0) {
+                    $('#addedAlert').hide();
+                    $('#errorAlert').show();
                 }
             });
 
@@ -199,15 +205,13 @@
             $('#saveButton')[0].disabled = false;
         };
 
-//        $('#titleButton').on('click', function () {
-//            console.log("TitleButton");
-//            $('#titleDetails')[0].disabled = true;
-//            $('#dateDetails')[0].disabled = true;
-//            $('#descDetails')[0].disabled = true;
-//            $('#saveButton')[0].disabled = true;
-//        });
-
-
+        $('.titleButtonClass').on('click', function () {
+            console.log("TitleButton");
+            $('#titleDetails')[0].disabled = true;
+            $('#dateDetails')[0].disabled = true;
+            $('#descDetails')[0].disabled = true;
+            $('#saveButton')[0].disabled = true;
+        });
 
     </script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

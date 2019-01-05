@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import notes.Helper.Censure.CensureMaker;
 import notes.Helper.Enum.AddEnum;
+import notes.Helper.Enum.EditEnum;
 import notes.Helper.Enum.LoginEnum;
 import notes.Helper.Enum.OperationEnum;
 import notes.Helper.Service.ServiceResult;
@@ -127,17 +128,17 @@ public class NoteController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public @ResponseBody ServiceResult<Note, OperationEnum> editItem(@RequestBody String json, HttpSession session) {
+    public @ResponseBody ServiceResult<Note, EditEnum> editItem(@RequestBody String json, HttpSession session) {
 
         Gson gson = new Gson();
         Note note = gson.fromJson(json, Note.class);
 
         System.out.println(json);
 
-        ServiceResult<Note, OperationEnum> serviceResult = new ServiceResult<>();
+        ServiceResult<Note, EditEnum> serviceResult = new ServiceResult<>();
 
         if (!validSession(session)) {
-            serviceResult.setEnumValue(OperationEnum.Invalid);
+            serviceResult.setEnumValue(EditEnum.Invalid);
             return serviceResult;
         }
 

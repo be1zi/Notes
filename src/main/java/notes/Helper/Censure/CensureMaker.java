@@ -33,8 +33,11 @@ public class CensureMaker {
             return fromText;
         }
 
+        fromText = fromText.replaceAll("\\*", "_");
+
         for (Censure censure: censuredWords) {
-            fromText = fromText.replaceAll(censure.getPattern(), censure.getText());
+            String pattern = censure.getPattern().replaceAll("\\*", "_");
+            fromText = fromText.replaceAll(pattern, censure.getText());
         }
 
         return fromText;

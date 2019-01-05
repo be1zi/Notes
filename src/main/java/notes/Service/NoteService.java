@@ -1,8 +1,11 @@
 package notes.Service;
 
+import notes.DAO.CensureRepository;
 import notes.DAO.NoteRepository;
 import notes.DAO.UserRepository;
+import notes.Helper.Censure.CensureMaker;
 import notes.Helper.Enum.AddEnum;
+import notes.Helper.Enum.EditEnum;
 import notes.Helper.Enum.OperationEnum;
 import notes.Helper.Service.ServiceResult;
 import notes.Model.Note;
@@ -28,6 +31,9 @@ public class NoteService implements INoteService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    CensureRepository censureRepository;
 
     @Override
     @Transactional
@@ -126,47 +132,58 @@ public class NoteService implements INoteService {
 
     @Override
     @Transactional
-    public ServiceResult<Note, OperationEnum> editNote(Note note, User user) {
+    public ServiceResult<Note, EditEnum> editNote(Note note, User user) {
 
-        ServiceResult<Note, OperationEnum> serviceResult = new ServiceResult<>();
+        ServiceResult<Note, EditEnum> serviceResult = new ServiceResult<>();
 
         if (note == null || !(note.getId() > 0) ||
                 user == null || !(user.getId() > 0) ||
                 note.getTitle() == null || note.getTitle().isEmpty()) {
-            serviceResult.setEnumValue(OperationEnum.Failure);
+            serviceResult.setEnumValue(EditEnum.Failure);
             return serviceResult;
         }
 
         Optional<Note> n = noteRepository.findById(note.getId());
 
         if (n == null) {
-            serviceResult.setEnumValue(OperationEnum.Failure);
+            serviceResult.setEnumValue(EditEnum.Invalid.Failure);
             return serviceResult;
         }
 
-        n = Optional.ofNullable(noteRepository.findByTitleAndUserIdAndDeletedFalse(note.getTitle(), user.getId()));
+        Note existed = noteRepository.findByTitleAndUserIdAndDeletedFalse(note.getTitle(), user.getId());
 
-        if (n == null) {
-            serviceResult.setEnumValue(OperationEnum.Failure);
+        if (existed != null && existed.getId() != note.getId()) {
+            serviceResult.setEnumValue(EditEnum.Exist);
             return serviceResult;
         }
 
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date date = format.parse(note.getInsertDateString());
+
+            Date before = format.parse("1980-12-31");
+            Date after = format.parse("2042-01-01");
+
+            if (date.before(before) || date.after(after)) {
+                serviceResult.setEnumValue(EditEnum.WrongDate);
+                return serviceResult;
+            }
+
             note.setInsertDate(date);
             note.setUser(user);
+            note.setDesc(CensureMaker.deleteCensures(note.getDesc(),
+                    censureRepository.findAllByUserIdAndDeletedFalse(user.getId()) ));
         } catch (ParseException e) {
-            serviceResult.setEnumValue(OperationEnum.Failure);
+            serviceResult.setEnumValue(EditEnum.Failure);
             return serviceResult;
         }
 
         try {
             noteRepository.save(note);
-            serviceResult.setEnumValue(OperationEnum.Success);
+            serviceResult.setEnumValue(EditEnum.Success);
             serviceResult.setData(note);
         } catch (Exception e) {
-            serviceResult.setEnumValue(OperationEnum.Failure);
+            serviceResult.setEnumValue(EditEnum.Failure);
         }
 
         return serviceResult;
