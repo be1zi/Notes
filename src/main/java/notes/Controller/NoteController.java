@@ -1,5 +1,7 @@
 package notes.Controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import notes.Helper.Censure.CensureMaker;
 import notes.Helper.Enum.AddEnum;
 import notes.Helper.Enum.LoginEnum;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -102,7 +105,7 @@ public class NoteController {
     }
 
     @RequestMapping(value = "/item", method = RequestMethod.GET)
-    public @ResponseBody Note getItem(@RequestParam(value = "id", required = true) Long id, HttpSession session) {
+    public @ResponseBody Note getItem(@RequestParam(value = "id") Long id, HttpSession session) {
 
         if (!validSession(session)) {
             return null;
@@ -121,6 +124,27 @@ public class NoteController {
         }
 
         return null;
+    }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public @ResponseBody ServiceResult<Note, OperationEnum> editItem(@RequestBody String json, HttpSession session) {
+
+        Gson gson = new Gson();
+        Note note = gson.fromJson(json, Note.class);
+
+        System.out.println(json);
+
+        ServiceResult<Note, OperationEnum> serviceResult = new ServiceResult<>();
+
+        if (!validSession(session)) {
+            serviceResult.setEnumValue(OperationEnum.Invalid);
+            return serviceResult;
+        }
+
+        User user = (User) session.getAttribute("user");
+        serviceResult = iNoteService.editNote(note, user);
+
+        return serviceResult;
     }
 
     @RequestMapping(value = "/back", method = RequestMethod.GET)

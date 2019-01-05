@@ -13,4 +13,5 @@ public interface INoteService {
     ServiceResult<Note, AddEnum> addNote(Note note, User user);
     ServiceResult<User, OperationEnum> deleteNote(Long noteId, User user);
     ServiceResult<List<Note>, OperationEnum> getNotesForUser(User user);
+    ServiceResult<Note, OperationEnum> editNote(Note note, User user);
 }

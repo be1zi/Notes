@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -114,6 +117,54 @@ public class NoteService implements INoteService {
             List<Note> result = noteRepository.findByUserIdAndDeletedFalse(user.getId());
             serviceResult.setEnumValue(OperationEnum.Success);
             serviceResult.setData(result);
+        } catch (Exception e) {
+            serviceResult.setEnumValue(OperationEnum.Failure);
+        }
+
+        return serviceResult;
+    }
+
+    @Override
+    @Transactional
+    public ServiceResult<Note, OperationEnum> editNote(Note note, User user) {
+
+        ServiceResult<Note, OperationEnum> serviceResult = new ServiceResult<>();
+
+        if (note == null || !(note.getId() > 0) ||
+                user == null || !(user.getId() > 0) ||
+                note.getTitle() == null || note.getTitle().isEmpty()) {
+            serviceResult.setEnumValue(OperationEnum.Failure);
+            return serviceResult;
+        }
+
+        Optional<Note> n = noteRepository.findById(note.getId());
+
+        if (n == null) {
+            serviceResult.setEnumValue(OperationEnum.Failure);
+            return serviceResult;
+        }
+
+        n = Optional.ofNullable(noteRepository.findByTitleAndUserIdAndDeletedFalse(note.getTitle(), user.getId()));
+
+        if (n == null) {
+            serviceResult.setEnumValue(OperationEnum.Failure);
+            return serviceResult;
+        }
+
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = format.parse(note.getInsertDateString());
+            note.setInsertDate(date);
+            note.setUser(user);
+        } catch (ParseException e) {
+            serviceResult.setEnumValue(OperationEnum.Failure);
+            return serviceResult;
+        }
+
+        try {
+            noteRepository.save(note);
+            serviceResult.setEnumValue(OperationEnum.Success);
+            serviceResult.setData(note);
         } catch (Exception e) {
             serviceResult.setEnumValue(OperationEnum.Failure);
         }

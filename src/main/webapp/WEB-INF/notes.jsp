@@ -86,9 +86,18 @@
 
                 <div class="col-md-6">
                     <div class="button">
-                        <button id="saveButton" type="submit" class="btn btn-block btn-lg text-center btn-warning text-white" disabled = true>Zapisz</button>
+                        <button id="saveButton" type="submit" class="btn btn-block btn-lg text-center btn-warning text-white" disabled = true onclick="edit()">Zapisz</button>
                     </div>
                 </div>
+
+                <div class="addAlertSuccess" hidden = true>
+                    <H3>Dodano</H3>
+                </div>
+
+                <div class="addAlertFailure" hidden = true>
+                    <H3>Nie dodano</H3>
+                </div>
+
             </div>
         </div>
     </div>
@@ -97,6 +106,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" ></script>
 
     <script>
+
+        var itemId = 0;
 
         function showItem(id) {
 
@@ -116,10 +127,11 @@
                     window.location = "/user/login";
                 } else {
 
-//                    document.getElementById("dateDetails").valueAsDate = new Date();
                     $('#titleDetails').val(data.title);
                     $('#dateDetails').val(data.insertDateString);
                     $('#descDetails').val(data.desc);
+
+                    itemId = data.id;
                 }
             });
 
@@ -128,6 +140,53 @@
                 window.location = "/user/login";
             });
         };
+
+        function edit() {
+
+            var request = $.ajax({
+               url:'/note/edit',
+               type: 'POST',
+               data: JSON.stringify({
+                   id: itemId,
+                   title: $('#titleDetails').val(),
+                   desc: $('#descDetails').val(),
+                   insertDateString: $('#dateDetails').val()
+               }),
+                contentType: 'application/json; charset=utf-8'
+            });
+
+            request.done(function (data) {
+                console.log("Done");
+                console.log(data.enumValue);
+
+                if (data.enumValue.localeCompare("Invalid") == 0) {
+                    console.log("Invalid session");
+                    window.location = "/user/login";
+                } else if (data.enumValue.localeCompare("Success") == 0){
+                    $('#addAlertSuccess').show();
+                    $('#addAlertFailure').hide();
+                } else if (data.enumValu.localeCompare("Failure") == 0){
+                    $('#addAlertSuccess').hide();
+                    $('#addAlertFailure').show();
+                }
+            });
+
+            request.fail(function () {
+                console.log("Fail");
+
+                $('#addAlertSuccess').hide();
+                $('#addAlertFailure').hide();
+
+             if (data.enumValue.localeCompare("Invalid") == 0) {
+                 console.log("Invalid session");
+                 window.location = "/user/login";
+             } else if (data.enumValu.localeCompare("Failure") == 0) {
+                 $('#addAlertSuccess').hide();
+                 $('#addAlertFailure').show();
+             }
+            });
+
+        }
 
         function editAction(id) {
 
@@ -147,6 +206,8 @@
 //            $('#descDetails')[0].disabled = true;
 //            $('#saveButton')[0].disabled = true;
 //        });
+
+
 
     </script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
