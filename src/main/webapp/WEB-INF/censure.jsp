@@ -37,7 +37,7 @@
             <div class="form-group" >
                 <label class="text-secondary">Tekst</label>
                 <censureForm:input id="censureText" path="text" type="text" class="form-control" placeholder="Tekst" required="" maxlength="50"/>
-                <label class="alert" id="alert" hidden="true"> Pole nie może zawierać cyfr </label>
+                <label class="alert" id="censureTextAlert" hidden="true"> Pole nie może zawierać cyfr </label>
                 <br/>
             </div>
 
@@ -135,17 +135,17 @@
                         if ($('#censureText').val().match(".*\\d+.*")) {
                             $('#censureText').css('border-color', 'red');
                             $('#submitButton')[0].disabled = true;
-                            $('#alert').show();
+                            $('#censureTextAlert').show();
                         } else {
                             $('#censureText').css('border-color', 'white');
                             $('#submitButton')[0].disabled = false;
-                            $('#alert').hide();
+                            $('#censureTextAlert').hide();
 
                         }
                     } else {
                         $('#censureText').css('border-color', 'white');
                         $('#submitButton')[0].disabled = false;
-                        $('#alert').hide();
+                        $('#censureTextAlert').hide();
                     }
                 });
             });

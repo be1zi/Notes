@@ -90,12 +90,12 @@
                     </div>
                 </div>
 
-                <div class="addAlertSuccess" id="addedAlert">
-                    <H3 id="addedAlertMessage">Dodano</H3>
+                <div class="addAlertSuccess collapse" id="addedAlert">
+                    <H3 id="testSuccess">Dodano</H3>
                 </div>
 
-                <div class="addAlertFailure" id="errorAlert">
-                    <H3>Nie dodano</H3>
+                <div class="addAlertFailure collapse" id="errorAlert">
+                    <H3 id="testError">Nie dodano</H3>
                 </div>
 
             </div>
@@ -156,42 +156,39 @@
             });
 
             request.done(function (data) {
-                console.log("Done");
-                console.log(data.enumValue);
 
                 if (data.enumValue.localeCompare("Invalid") == 0) {
-                    console.log("Invalid session");
                     window.location = "/user/login";
-                } else if (data.enumValue.localeCompare("Success") == 0){
+                } else if (data.enumValue.localeCompare("Success") == 0) {
                     $('#addedAlert').show();
                     $('#errorAlert').hide();
-                } else if (data.enumValue.localeCompare("Failure") == 0){
+                    $('#testSuccess').text("Notatka została prawidłowo zapisana.");
+                } else if (data.enumValue.localeCompare("Failure") == 0) {
                     $('#addedAlert').hide();
                     $('#errorAlert').show();
-                } else if (data.enumValue.localeCompare("WrongData") == 0) {
+                    $('#testError').text("Coś poszło nie tak. Proszę spróbować ponownie później.");
+                } else if (data.enumValue.localeCompare("WrongDate") == 0) {
                     $('#addedAlert').hide();
                     $('#errorAlert').show();
+                    $('#testError').text("Niepoprawna data. Musi się ona zawierac między rokiem 1 stycznia 1980 a 1 stycznia 2042.");
                 } else if (data.enumValue.localeCompare("Exist") == 0) {
                     $('#addedAlert').hide();
                     $('#errorAlert').show();
+                    $('#testError').text("Notatka o podanym tytule już istniieje. Proszę wybrać inny.");
                 }
             });
 
             request.fail(function () {
-                console.log("Fail");
-
-                $('#addAlertSuccess').hide();
-                $('#addAlertFailure').hide();
-
+                $('#addedAlert').hide();
+                $('#errorAlert').hide();
              if (data.enumValue.localeCompare("Invalid") == 0) {
-                 console.log("Invalid session");
                  window.location = "/user/login";
-             } else if (data.enumValu.localeCompare("Failure") == 0) {
-                 $('#addAlertSuccess').hide();
-                 $('#addAlertFailure').show();
+             } else if (data.enumValue.localeCompare("Failure") == 0) {
+                 $('#addedAlert').hide();
+                 $('#errorAlert').show();
+                 $('#testError').text("Coś poszło nie tak. Proszę spróbować ponownie później.");
              }
             });
-
         }
 
         function editAction(id) {

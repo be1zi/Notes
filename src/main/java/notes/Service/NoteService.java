@@ -161,7 +161,7 @@ public class NoteService implements INoteService {
         try {
             Date date = format.parse(note.getInsertDateString());
 
-            Date before = format.parse("1980-12-31");
+            Date before = format.parse("1980-1-01");
             Date after = format.parse("2042-01-01");
 
             if (date.before(before) || date.after(after)) {
