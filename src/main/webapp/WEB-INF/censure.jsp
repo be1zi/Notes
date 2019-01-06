@@ -37,18 +37,18 @@
             <div class="form-group" >
                 <label class="text-secondary">Tekst</label>
                 <censureForm:input id="censureText" path="text" type="text" class="form-control" placeholder="Tekst" required="" maxlength="50"/>
-                <label class="alert" id="censureTextAlert" hidden="true"> Pole nie może zawierać cyfr </label>
+                <label class="alert collapse" id="censureTextAlert"> Pole nie może zawierać cyfr </label>
                 <br/>
             </div>
 
             <div class="form-group" >
                 <label class="text-secondary">Opis</label>
-                <censureForm:input path="pattern" type="text" class="form-control" placeholder="Wzór" required=""/>
+                <censureForm:input id="censurePattern" path="pattern" type="text" class="form-control" placeholder="Wzór" required=""/>
                 <br/>
             </div>
 
             <div class="loginButton text-center" style="margin-top: 20px;">
-                <button type="submit" id="submitButton" class="btn btn-block btn-lg text-center btn-warning text-white">Zapisz</button>
+                <button type="submit" id="submitButton" class="btn btn-block btn-lg text-center btn-warning text-white" disabled="true">Zapisz</button>
             </div>
 
             <div class="alert">
@@ -63,7 +63,7 @@
                     <div class="alert alert-error alert-danger" role="alert" id="loginAlert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
                         <h4 class="alert-heading">Błąd</h4>
-                        <p class="mb-0">Niestety cenzura dla podanego <b>tekstu</b> już iistnieje. Proszę wybrać inny i spróbować ponownie. </p>
+                        <p class="mb-0">Niestety cenzura dla podanego <b>tekstu</b> już istnieje. Proszę wybrać inny i spróbować ponownie. </p>
                         <% } else if (session.getAttribute("alert") == AddEnum.EmptyField) { %>
                         <div class="alert alert-error alert-danger" role="alert" id="loginAlert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
@@ -137,17 +137,35 @@
                             $('#submitButton')[0].disabled = true;
                             $('#censureTextAlert').show();
                         } else {
-                            $('#censureText').css('border-color', 'white');
-                            $('#submitButton')[0].disabled = false;
+                            $('#censureText').css('border-color', 'green');
                             $('#censureTextAlert').hide();
 
+                            if ($('#censurePattern').val() != null && !($('#censurePattern').val() == '')) {
+                                $('#submitButton')[0].disabled = false;
+                            }
                         }
                     } else {
                         $('#censureText').css('border-color', 'white');
-                        $('#submitButton')[0].disabled = false;
+                        $('#submitButton')[0].disabled = true;
                         $('#censureTextAlert').hide();
                     }
                 });
+
+                $('#censurePattern').on('keyup', function () {
+                    if ($('#censurePattern').val() != null && !($('#censurePattern').val() == '')) {
+                            $('#censurePattern').css('border-color', 'green');
+
+                        if ($('#censureText').val() != null && !($('#censureText').val() == '')) {
+                            $('#submitButton')[0].disabled = false;
+                        } else {
+                            $('#submitButton')[0].disabled = true;
+                        }
+                    } else {
+                        $('#censurePattern').css('border-color', 'white');
+                        $('#submitButton')[0].disabled = true;
+                    }
+                });
+
             });
 
         </script>
