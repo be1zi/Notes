@@ -17,13 +17,20 @@
 <body>
 
 <div class="container-fluid p-3" style="margin-left: 20px">
+    <div class="row p-2">
+        <div class="col-md-5">
+            <h1 class="mb-6 text-center text-secondary" style="padding-bottom: 20px">Twoje notatki</h1>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
+            <h1 class="mb-6 text-center text-secondary" style="padding-bottom: 20px">Podgląd</h1>
+        </div>
+    </div>
 
-    <div class="row"  >
 
-        <div class="col-md-6">
-            <h1>Twoje notatki</h1>
+    <div class="row p-2"  >
+        <div class="col-md-5">
 
-            <div class="notesList" >
                 <c:choose>
                     <c:when test="${empty notes}">
                         <div class="container">
@@ -32,62 +39,60 @@
                     </c:when>
                 </c:choose>
 
-                <div class="notes">
-
                     <c:forEach items="${notes}" var="item">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <%--<a href="#">--%>
-                                <%--</a>--%>
-                                <button id="titleButton" class="titleButtonClass" type="button" onclick="showItem(${item.getId()})">
-                                    <c:out value="${item.getTitle()}"/>
-                                </button>
+                        <div class="row border border-success" style="margin-bottom: 5px">
+
+                            <div class="col-md-6" style="align-self: center">
+                                <p style="align-self: center"> ${item.getTitle()}</p>
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-md-2" style="align-self: center">
+                                <button id="titleButton" class="titleButtonClass" type="button" onclick="editAction(${item.getId()})">Podgląd</button>
+                            </div>
+
+                            <div class="col-md-2" style="align-self: center">
                                 <button type="button" onclick="editAction(${item.getId()})">Edytuj</button>
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-md-2" style="align-self: center">
                                 <a href="/note/delete?id=${item.getId()}">Usuń</a>
                             </div>
 
                         </div>
                     </c:forEach>
 
-                    <div id="noteContent">
 
-                    </div>
-                </div>
+            <div class="row p-2" style="margin-top: 40px;">
+                <a class="btn navbar-btn ml-2 text-white btn-warning" href="/note/back" data-toggle=""> Powrót </a>
+            </div>
+
+            <div class="row p-2">
+                <a class="btn navbar-btn ml-2 text-white btn-danger" href="/user/logout" data-toggle=""> Wyloguj </a>
             </div>
 
         </div>
-        <div class="col-md-4">
-            <h1>Podgląd</h1>
-            <div class="noteDetails">
 
-                    <div class="noteTitle" >
-                        <label class="label">Tytuł</label>
-                        <input id="titleDetails" path="title" type="text" class="titleInput" placeholder="" required="" maxlength="50" disabled=true/>
-                        <br/>
-                    </div>
+        <div class="col-md-2"></div>
 
-                    <div class="noteDate" >
-                        <label class="label">Data</label>
-                        <input id="dateDetails" path="title" type="date" class="titleInput" placeholder="" required="" maxlength="50" disabled=true/>
-                        <br/>
-                    </div>
+        <div class="col-md-5">
 
-                    <div class="noteDesc" >
-                        <label class="label">Opis</label>
-                        <textarea id="descDetails" path="desc" type="text" class="descInput" placeholder="" required="" rows="10" disabled = true></textarea>
-                        <br/>
-                    </div>
+                <div class="form-group" >
+                    <label class="text-secondary">Tytuł</label>
+                    <input id="titleDetails" path="title" type="text" class="form-control" placeholder="" required="" maxlength="50" disabled=true/>
+                </div>
 
-                <div class="col-md-6">
-                    <div class="button">
-                        <button id="saveButton" type="submit" class="btn btn-block btn-lg text-center btn-warning text-white" disabled = true onclick="edit()">Zapisz</button>
-                    </div>
+                <div class="noteDate" >
+                    <label class="label">Data</label>
+                    <input id="dateDetails" path="title" type="date" class="titleInput" placeholder="" required="" maxlength="50" disabled=true/>
+                </div>
+
+                <div class="form-group" >
+                    <label class="text-secondary">Opis</label>
+                    <textarea id="descDetails" path="desc" type="text" class="form-group" placeholder="" required="" rows="10" disabled = true></textarea>
+                </div>
+
+                <div class="form-group">
+                    <button id="saveButton" type="submit" class="btn btn-block btn-lg text-center btn-warning text-white" disabled = true onclick="edit()">Zapisz</button>
                 </div>
 
                 <div class="addAlertSuccess collapse" id="addedAlert">
@@ -97,8 +102,6 @@
                 <div class="addAlertFailure collapse" id="errorAlert">
                     <H3 id="testError">Nie dodano</H3>
                 </div>
-
-            </div>
         </div>
     </div>
 </div>
@@ -203,7 +206,6 @@
         };
 
         $('.titleButtonClass').on('click', function () {
-            console.log("TitleButton");
             $('#titleDetails')[0].disabled = true;
             $('#dateDetails')[0].disabled = true;
             $('#descDetails')[0].disabled = true;
