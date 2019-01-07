@@ -1,7 +1,5 @@
-package notes;
+package notes.Controller;
 
-import notes.Controller.CensureController;
-import notes.Controller.UserController;
 import notes.Model.Censure;
 import notes.Model.User;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package notes;
+package notes.Controller;
 
 import notes.Controller.UserController;
 import notes.Helper.Enum.LoginEnum;
