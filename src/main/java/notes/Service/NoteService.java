@@ -102,7 +102,7 @@ public class NoteService implements INoteService {
             serviceResult.setEnumValue(OperationEnum.Failure);
         }
 
-        user = userRepository.findByLogin(user.getLogin());
+        user = userRepository.findByLoginAndDeletedFalse(user.getLogin());
         serviceResult.setData(user);
 
         return serviceResult;

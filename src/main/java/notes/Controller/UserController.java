@@ -1,15 +1,16 @@
 package notes.Controller;
 
+import com.google.gson.Gson;
+import notes.Helper.Enum.AddEnum;
 import notes.Helper.Enum.LoginEnum;
 import notes.Helper.Service.ServiceResult;
+import notes.Model.Note;
 import notes.Model.User;
 import notes.Service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,5 +58,20 @@ public class UserController {
 
         session.invalidate();
         return "redirect:/";
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public @ResponseBody ServiceResult<User, AddEnum> register(@RequestBody String json) {
+
+        System.out.println("Register");
+
+        Gson gson = new Gson();
+        User user = gson.fromJson(json, User.class);
+
+        System.out.println(user.toString());
+
+        ServiceResult<User, AddEnum> serviceResult = userService.registerUser(user);
+
+        return serviceResult;
     }
 }

@@ -24,6 +24,8 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER)
     private List<Note> notes;
 
+    private boolean deleted;
+
     public Long getId() {
         return id;
     }
@@ -73,6 +75,14 @@ public class User {
         if (!this.notes.contains(note)) {
             this.notes.add(note);
         }
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     @Override
